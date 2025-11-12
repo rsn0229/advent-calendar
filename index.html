@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Ephesis&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --box-body-blue: #315a7f;
@@ -24,6 +25,9 @@
             user-select: none;
         }
 
+        /* ------------------------------------ */
+        /* PC 기본 스타일 (800px 초과 시) */
+        /* ------------------------------------ */
         body {
             background-color: var(--bg-color-main); 
             display: flex;
@@ -74,6 +78,7 @@
             background-position: center;
         }
         
+        /* PC 리본: 상자 위에 절대 위치 */
         .ribbon-container {
             position: absolute;
             top: 50%; 
@@ -121,15 +126,13 @@
             margin-right: 15px; 
         }
         
-
         .signature-text {
             font-family: 'Ephesis', cursive; 
-            color: var(--text-color-light) !important;
+            color: var(--text-color-light) !important; 
             line-height: 1.1;
         }
 
         .app-title { 
-
             font-size: 2.2em; 
             font-weight: normal; 
             text-align: center; 
@@ -138,7 +141,6 @@
         }
         
         .app-subtitle { 
-
             font-size: 2.2em; 
             font-weight: normal; 
             text-align: center; 
@@ -253,6 +255,9 @@
         @keyframes dot-animation { 0% { content: '.'; } 25% { content: '..'; } 50% { content: '...'; } 75% { content: '...'; } 100% { content: '.'; } }
 
 
+        /* ------------------------------------ */
+        /* 모바일 스타일 (800px 이하 시) 재정의 - 리본/뚜껑 수직 쌓기 */
+        /* ------------------------------------ */
         @media (max-width: 800px) {
             
             body {
@@ -270,9 +275,14 @@
                 border-radius: 8px; 
                 margin: 0 auto;
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
+                
+                /* 모바일 수직 쌓기의 핵심 */
+                display: flex;
+                flex-direction: column;
             }
             
             .gift-box-lid { 
+                /* 뚜껑을 첫 번째 수직 요소로 만듦 */
                 display: block; 
                 position: relative; 
                 height: 50px; 
@@ -282,6 +292,28 @@
                 border-bottom: none; 
             } 
             
+            /* 리본 컨테이너: 뚜껑 바로 아래에 수직으로 쌓임 */
+            .ribbon-container {
+                display: block;
+                position: relative; /* 수직 흐름을 따름 */
+                height: 50px; /* 리본 컨테이너 높이 */
+                width: 100%; 
+                top: auto; /* PC 속성 무효화 */
+                left: auto; /* PC 속성 무효화 */
+                transform: none;
+                z-index: 1; /* 뚜껑/본체 위에 겹치지 않도록 z-index 낮춤 (혹시 모를 충돌 방지) */
+                pointer-events: none; /* 리본 클릭 방지 유지 */
+            }
+            
+            .ribbon-bow {
+                /* 리본 컨테이너(50px) 중앙 상단에 배치되도록 조정 */
+                position: absolute;
+                top: -25px; /* 리본 컨테이너 위에 25px만큼 띄움 */
+                left: 50%;
+                transform: translateX(-50%);
+                pointer-events: all; 
+            }
+
             .gift-box-body { 
                 position: relative; 
                 bottom: auto; 
@@ -290,23 +322,9 @@
                 padding: 10px; 
                 border-top: none; 
                 min-height: 400px;
+                flex-grow: 1; /* 남은 공간을 채우도록 함 */
             }
             
-            .ribbon-container {
-                display: block;
-                position: absolute; 
-                width: 100%; 
-                height: 100%;
-                top: 0;
-                left: 0;
-                transform: none;
-                z-index: 110;
-            }
-            
-            .ribbon-bow {
-                top: 25px; 
-            }
-
             .left-panel { 
                 flex: none; 
                 width: 100%; 
@@ -330,9 +348,8 @@
                 margin: 0 auto;
             }
             
-
             .app-title, .app-subtitle { 
-                font-size: 2.2em;
+                font-size: 2.2em; 
                 color: var(--text-color-light); 
             }
             .download-link { color: var(--text-color-light); }
@@ -350,6 +367,12 @@
     <div class="gift-wrapper">
         
         <div class="gift-box-lid"></div>
+        
+        <div class="ribbon-container">
+            <div class="ribbon-bow">
+                <div class="ribbon-image"></div> 
+            </div>
+        </div>
         
         <div class="gift-box-body" id="main-content">
             
@@ -376,12 +399,7 @@
             
         </div>
     </div>
-
-    <div class="ribbon-container">
-        <div class="ribbon-bow">
-            <div class="ribbon-image"></div> 
-        </div>
-    </div>
+    
     
     <div id="popupModal" class="popup-modal">
         <div class="popup-content">
