@@ -226,6 +226,7 @@
 
         .cover-box::after {
             content: attr(data-emoji); 
+            /* PC 기본 크기: 3em 유지 */
             font-size: 3em; 
             font-weight: bold;
             color: var(--text-color-dark); 
@@ -285,14 +286,13 @@
             .gift-box-lid { 
                 display: block; 
                 position: relative; 
-                /* 🐛 변경: 뚜껑 높이를 1px 늘려 리본과 겹치는 영역 확보 */
                 height: 51px; 
                 width: 100%; 
                 transform: none; 
                 left: 0;
                 border-bottom: none; 
                 order: 2; 
-                background-color: var(--box-lid-gray); /* 배경색 지정으로 틈 발생 시 흰색 방지 */
+                background-color: var(--box-lid-gray); 
             } 
             
             /* 리본 컨테이너: 1번째 순서 (가장 위) */
@@ -307,7 +307,6 @@
                 z-index: 1; 
                 pointer-events: none; 
                 order: 1; 
-                /* 🐛 변경: 뚜껑을 1px 더 당겨 올려 틈 완벽 제거 */
                 margin-bottom: -26px; 
             }
             
@@ -320,7 +319,6 @@
             }
 
             .ribbon-image {
-                /* 🐛 변경: 1px 더 위로 띄워 뚜껑 위에 완벽히 얹힘 */
                 top: -26px; 
             }
 
@@ -360,6 +358,11 @@
                 margin: 0 auto;
             }
             
+            .cover-box::after {
+                /* 🐛 변경: 모바일 이모지 크기 2em로 조정 (3em의 2/3) */
+                font-size: 2em; 
+            }
+
             .app-title, .app-subtitle { 
                 font-size: 2.2em; 
                 color: var(--text-color-light); 
