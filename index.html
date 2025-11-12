@@ -256,7 +256,7 @@
 
 
         /* ------------------------------------ */
-        /* 모바일 스타일 (800px 이하 시) 재정의 - 리본/뚜껑 수직 쌓기 */
+        /* 모바일 스타일 (800px 이하 시) 재정의 - 리본/뚜껑 순서 조정 */
         /* ------------------------------------ */
         @media (max-width: 800px) {
             
@@ -276,13 +276,13 @@
                 margin: 0 auto;
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
                 
-                /* 모바일 수직 쌓기의 핵심 */
+                /* 모바일 수직 쌓기: 자식 요소들의 order를 사용하기 위해 필요 */
                 display: flex;
                 flex-direction: column;
             }
             
+            /* 뚜껑: 2번째 순서 */
             .gift-box-lid { 
-                /* 뚜껑을 첫 번째 수직 요소로 만듦 */
                 display: block; 
                 position: relative; 
                 height: 50px; 
@@ -290,30 +290,33 @@
                 transform: none; 
                 left: 0;
                 border-bottom: none; 
+                order: 2; /* 뚜껑을 2번째로 배치 */
             } 
             
-            /* 리본 컨테이너: 뚜껑 바로 아래에 수직으로 쌓임 */
+            /* 리본 컨테이너: 1번째 순서 (가장 위) */
             .ribbon-container {
                 display: block;
-                position: relative; /* 수직 흐름을 따름 */
-                height: 50px; /* 리본 컨테이너 높이 */
+                position: relative; 
+                height: 50px; 
                 width: 100%; 
-                top: auto; /* PC 속성 무효화 */
-                left: auto; /* PC 속성 무효화 */
+                top: auto; 
+                left: auto; 
                 transform: none;
-                z-index: 1; /* 뚜껑/본체 위에 겹치지 않도록 z-index 낮춤 (혹시 모를 충돌 방지) */
-                pointer-events: none; /* 리본 클릭 방지 유지 */
+                z-index: 1; 
+                pointer-events: none; 
+                order: 1; /* 리본을 1번째로 배치 */
             }
             
             .ribbon-bow {
-                /* 리본 컨테이너(50px) 중앙 상단에 배치되도록 조정 */
                 position: absolute;
-                top: -25px; /* 리본 컨테이너 위에 25px만큼 띄움 */
+                /* 리본 컨테이너(50px) 중앙 상단에 배치 */
+                top: -25px; 
                 left: 50%;
                 transform: translateX(-50%);
                 pointer-events: all; 
             }
 
+            /* 본체: 3번째 순서 (가장 아래) */
             .gift-box-body { 
                 position: relative; 
                 bottom: auto; 
@@ -322,7 +325,8 @@
                 padding: 10px; 
                 border-top: none; 
                 min-height: 400px;
-                flex-grow: 1; /* 남은 공간을 채우도록 함 */
+                flex-grow: 1;
+                order: 3; /* 본체를 3번째로 배치 */
             }
             
             .left-panel { 
