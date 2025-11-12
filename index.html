@@ -19,6 +19,11 @@
             --text-color-dark: #333; 
         }
 
+        /* PC에서 배경색이 사라지는 문제 방지 */
+        html, body {
+            background-color: var(--bg-color-main); 
+        }
+        
         * {
             box-sizing: border-box;
             font-family: 'Gowun Dodum', sans-serif; 
@@ -29,7 +34,6 @@
         /* PC 기본 스타일 (800px 초과 시) */
         /* ------------------------------------ */
         body {
-            background-color: var(--bg-color-main); 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -45,6 +49,10 @@
             height: 600px; 
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             border-radius: 8px;
+            background-color: var(--bg-color-main); 
+            /* 모바일에서 flex-direction: column을 사용하므로 PC에서는 초기화 */
+            display: block; 
+            flex-direction: row; 
         }
         
         .gift-box-lid {
@@ -78,16 +86,22 @@
             background-position: center;
         }
         
-        /* PC 리본: 상자 위에 절대 위치 */
+        /* PC 리본: 상자 위에 절대 위치 (PC 전용 속성 격리 시작) */
         .ribbon-container {
             position: absolute;
             top: 50%; 
             left: 50%; 
-            width: 800px; 
-            height: 600px; 
-            transform: translate(-50%, -50%); 
             z-index: 999; 
             pointer-events: none;
+        }
+
+        @media (min-width: 801px) {
+             .ribbon-container {
+                /* PC 전용 크기 및 위치 조정 */
+                width: 800px; 
+                height: 600px; 
+                transform: translate(-50%, -50%); 
+            }
         }
         
         .ribbon-bow {
@@ -256,7 +270,7 @@
 
 
         /* ------------------------------------ */
-        /* 모바일 스타일 (800px 이하 시) 재정의 - 리본 위치 및 투명화 */
+        /* 모바일 스타일 (800px 이하 시) 재정의 - 리본 위치 및 투명화 최종 수정 */
         /* ------------------------------------ */
         @media (max-width: 800px) {
             
@@ -265,7 +279,8 @@
                 padding: 20px 10px; 
                 align-items: flex-start; 
                 min-height: auto;
-                background-color: transparent; /* body 배경 투명하게 */
+                /* 모바일에서만 body/html 배경을 투명하게 (바깥쪽 여백이 body 배경을 따라가지 않도록) */
+                background-color: transparent; 
             }
 
             .gift-wrapper { 
@@ -279,7 +294,7 @@
                 
                 display: flex;
                 flex-direction: column;
-                background-color: var(--bg-color-main); /* gift-wrapper에 명확한 배경색 부여 */
+                background-color: var(--bg-color-main); 
             }
             
             .gift-box-lid { 
@@ -296,7 +311,7 @@
             .ribbon-container {
                 display: block;
                 position: relative; 
-                height: 50px; 
+                height: 0; /* 공간을 차지하지 않음 */
                 width: 100%; 
                 top: auto; 
                 left: auto; 
@@ -304,19 +319,21 @@
                 z-index: 1; 
                 pointer-events: none; 
                 order: 1; 
-                margin-bottom: -25px; /* 다음 요소 (뚜껑)를 25px 위로 당김 */
+                /* 뚜껑(50px)을 완벽하게 끌어올림 */
+                margin-bottom: -50px; 
             }
             
             .ribbon-bow {
                 position: absolute;
-                top: 0; /* ribbon-container 상단에 맞춤 */
+                top: 0; 
                 left: 50%;
                 transform: translateX(-50%);
                 pointer-events: all; 
             }
 
             .ribbon-image {
-                top: -25px; /* ribbon-image 자체를 25px 위로 띄워 뚜껑 위에 보이도록 함 */
+                /* 리본 이미지를 25px 위로 띄워 뚜껑 위에 보이도록 함 */
+                top: -25px; 
             }
 
             .gift-box-body { 
