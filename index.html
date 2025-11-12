@@ -256,7 +256,7 @@
 
 
         /* ------------------------------------ */
-        /* 모바일 스타일 (800px 이하 시) 재정의 - 리본/뚜껑 순서 조정 */
+        /* 모바일 스타일 (800px 이하 시) 재정의 - 리본 위치 및 투명화 */
         /* ------------------------------------ */
         @media (max-width: 800px) {
             
@@ -265,6 +265,7 @@
                 padding: 20px 10px; 
                 align-items: flex-start; 
                 min-height: auto;
+                background-color: transparent; /* body 배경 투명하게 */
             }
 
             .gift-wrapper { 
@@ -276,12 +277,11 @@
                 margin: 0 auto;
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
                 
-                /* 모바일 수직 쌓기: 자식 요소들의 order를 사용하기 위해 필요 */
                 display: flex;
                 flex-direction: column;
+                background-color: var(--bg-color-main); /* gift-wrapper에 명확한 배경색 부여 */
             }
             
-            /* 뚜껑: 2번째 순서 */
             .gift-box-lid { 
                 display: block; 
                 position: relative; 
@@ -290,10 +290,9 @@
                 transform: none; 
                 left: 0;
                 border-bottom: none; 
-                order: 2; /* 뚜껑을 2번째로 배치 */
+                order: 2; 
             } 
             
-            /* 리본 컨테이너: 1번째 순서 (가장 위) */
             .ribbon-container {
                 display: block;
                 position: relative; 
@@ -304,19 +303,22 @@
                 transform: none;
                 z-index: 1; 
                 pointer-events: none; 
-                order: 1; /* 리본을 1번째로 배치 */
+                order: 1; 
+                margin-bottom: -25px; /* 다음 요소 (뚜껑)를 25px 위로 당김 */
             }
             
             .ribbon-bow {
                 position: absolute;
-                /* 리본 컨테이너(50px) 중앙 상단에 배치 */
-                top: -25px; 
+                top: 0; /* ribbon-container 상단에 맞춤 */
                 left: 50%;
                 transform: translateX(-50%);
                 pointer-events: all; 
             }
 
-            /* 본체: 3번째 순서 (가장 아래) */
+            .ribbon-image {
+                top: -25px; /* ribbon-image 자체를 25px 위로 띄워 뚜껑 위에 보이도록 함 */
+            }
+
             .gift-box-body { 
                 position: relative; 
                 bottom: auto; 
@@ -326,7 +328,7 @@
                 border-top: none; 
                 min-height: 400px;
                 flex-grow: 1;
-                order: 3; /* 본체를 3번째로 배치 */
+                order: 3; 
             }
             
             .left-panel { 
