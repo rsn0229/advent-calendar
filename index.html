@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>🎄Advent Calendar💝</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Ephesis&display=swap" rel="stylesheet">
     <style>
         :root {
             --box-body-blue: #315a7f;
@@ -19,46 +20,33 @@
 
         * {
             box-sizing: border-box;
-            font-family: 'Gowun Dodum', sans-serif;
+            font-family: 'Gowun Dodum', sans-serif; 
             user-select: none;
         }
 
         body {
             background-color: var(--bg-color-main); 
             display: flex;
-            /* 🐛 변경: 다시 중앙 정렬로 복귀하여 상자 주변에 여백을 확보 */
             justify-content: center;
-            align-items: center; 
+            align-items: center;
             min-height: 100vh; 
             margin: 0;
-            padding: 20px 0; 
-            
-            /* 배경 이미지: 상자 밖의 전체 배경 역할 */
-            background-image: url('https://i.imgur.com/J9BttEL.jpeg'); 
-            background-size: cover;
-            background-position: center top; 
-            background-repeat: no-repeat;
-            background-attachment: fixed; 
+            padding: 20px; 
+            overflow: hidden; 
         }
         
         .gift-wrapper {
             position: relative;
-            /* 🐛 변경: 모바일에서도 상자 느낌이 나도록 최소 높이를 다시 설정 */
-            width: 90%; 
-            max-width: 800px; 
-            height: auto; 
-            min-height: 600px; 
+            width: 800px; 
+            height: 600px; 
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             border-radius: 8px;
-            margin: 20px auto; 
-            overflow: hidden; 
         }
         
         .gift-box-lid {
             position: absolute;
             top: 0;
             width: 105%; 
-            /* 🐛 변경: PC에서는 10% 유지 (모바일 미디어쿼리에서 조정) */
             height: 10%; 
             background-color: transparent; 
             z-index: 10; 
@@ -76,26 +64,22 @@
             left: 0;
             width: 100%;
             height: 90%; 
-            /* 🐛 변경: PC에서는 나란히 (flex) */
             display: flex; 
+            flex-direction: row; 
             padding: 20px;
             box-sizing: border-box;
             border-top: 5px solid var(--box-lid-gray);
-            
-            /* 바디 배경 이미지 */
             background-image: url('https://i.imgur.com/1b7LMni.jpeg');
-            background-size: cover; 
+            background-size: cover;
             background-position: center;
-            background-attachment: fixed; 
         }
         
         .ribbon-container {
             position: absolute;
             top: 50%; 
             left: 50%; 
-            /* 🐛 변경: 모바일에서 크기 조정이 용이하도록 PC 고정 크기 제거 */
-            width: 100%; 
-            height: 100%; 
+            width: 800px; 
+            height: 600px; 
             transform: translate(-50%, -50%); 
             z-index: 999; 
             pointer-events: none;
@@ -136,11 +120,46 @@
             border-radius: 4px; 
             margin-right: 15px; 
         }
-        .app-title, .app-subtitle { color: var(--text-color-light); font-size: 1.5em; font-weight: bold; text-align: center; padding: 5px 10px; }
-        .app-title { margin-top: 0; }
-        .app-subtitle { margin-bottom: 0; }
-        .tree-calendar-container { display: flex; flex-direction: column; align-items: center; padding: 10px 0; justify-content: center; }
-        .calendar-row { display: flex; justify-content: center; margin-bottom: 5px; }
+        
+
+        .signature-text {
+            font-family: 'Ephesis', cursive; 
+            color: var(--text-color-light) !important;
+            line-height: 1.1;
+        }
+
+        .app-title { 
+
+            font-size: 2.2em; 
+            font-weight: normal; 
+            text-align: center; 
+            padding: 5px 10px; 
+            margin-top: 0; 
+        }
+        
+        .app-subtitle { 
+
+            font-size: 2.2em; 
+            font-weight: normal; 
+            text-align: center; 
+            padding: 5px 10px; 
+            margin-bottom: 0; 
+        }
+        
+        .tree-calendar-container { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 10px 0; 
+            flex-grow: 1; 
+            justify-content: center; 
+        }
+
+        .calendar-row { 
+            display: flex; 
+            justify-content: center; 
+            margin-bottom: 5px; 
+        }
 
         .calendar-day-tree {
             width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; margin: 0 2px;
@@ -188,7 +207,6 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             z-index: 4; 
             margin: auto; 
-            max-width: 400px; 
         }
 
         .current-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; }
@@ -235,68 +253,58 @@
         @keyframes dot-animation { 0% { content: '.'; } 25% { content: '..'; } 50% { content: '...'; } 75% { content: '...'; } 100% { content: '.'; } }
 
 
-        /* 모바일 반응형 개선 (상자 모양 복원 및 수직 쌓기) */
         @media (max-width: 800px) {
             
             body {
-                /* 모바일에서 상자 주변 마진을 확보하기 위해 padding을 다시 조정 */
+                overflow: auto;
                 padding: 20px 10px; 
+                align-items: flex-start; 
+                min-height: auto;
             }
-            
+
             .gift-wrapper { 
-                /* 🐛 변경: 화면 너비에 꽉 차지 않도록 width 90% 유지, margin 조정 */
                 width: 90%; 
-                min-height: auto; /* 내용물에 맞춰 유동적으로 */
-                max-width: 500px; /* 모바일에서도 상자가 너무 넓어지지 않도록 최대 너비 제한 */
+                max-width: 500px; 
+                height: auto; 
+                min-height: auto;
                 border-radius: 8px; 
-                margin: 0 auto; /* 상하 마진은 body padding으로 대체 */
+                margin: 0 auto;
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
             }
             
             .gift-box-lid { 
-                /* 🐛 변경: 뚜껑 다시 보이게 */
                 display: block; 
-                height: 50px; /* 뚜껑 높이 고정 (선물 상자 비율 유지) */
-                border-bottom: none; /* 뚜껑과 본체 간의 경계선 제거 */
-            } 
-
-            .gift-box-body { 
-                /* 🐛 변경: 뚜껑이 relative가 되었으므로 body도 relative로 변경하여 정상적인 흐름 유지 */
                 position: relative; 
-                height: auto; /* 높이를 콘텐츠에 맞춤 */
+                height: 50px; 
                 width: 100%; 
-                padding: 10px; /* 내부 패딩 조정 */
-                border-top: none; 
-                
-                /* 🐛 변경: 트리와 이미지를 수직으로 쌓기 */
-                flex-direction: column; 
-                
-                /* 배경 이미지: 모바일에서 상자 본체의 배경이 되도록 cover 유지 */
-                background-size: cover; 
-                background-attachment: scroll; 
-                min-height: 400px; /* 최소 높이 보장 */
-                
-                /* 뚜껑이 차지하는 영역을 고려하여 body의 시작 위치를 조정 */
-                top: 0; 
+                transform: none; 
+                left: 0;
+                border-bottom: none; 
+            } 
+            
+            .gift-box-body { 
+                position: relative; 
                 bottom: auto; 
+                height: auto; 
+                flex-direction: column; 
+                padding: 10px; 
+                border-top: none; 
+                min-height: 400px;
             }
             
             .ribbon-container {
-                /* 🐛 변경: 리본 다시 보이게 하고, 상자 중앙에 고정되도록 조정 */
                 display: block;
-                /* position: absolute; 대신 fixed를 사용하여 상자 중앙에 고정 (선택 사항) */
                 position: absolute; 
-                width: 100%; /* 부모에 맞춤 */
-                height: 100%; /* 부모에 맞춤 */
+                width: 100%; 
+                height: 100%;
                 top: 0;
                 left: 0;
                 transform: none;
                 z-index: 110;
             }
-
+            
             .ribbon-bow {
-                /* 모바일 상자 상단 중앙에 리본 배치 */
-                top: 25px; /* 뚜껑 아래에 위치하도록 조정 */
+                top: 25px; 
             }
 
             .left-panel { 
@@ -306,6 +314,7 @@
                 padding: 20px 10px 30px 10px; 
                 margin-right: 0;
             }
+            
             .right-panel { 
                 flex-grow: 1; 
                 width: 100%; 
@@ -314,12 +323,19 @@
             }
             
             .image-puzzle-container { 
-                width: 90%; /* 모바일에서 퍼즐 너비 축소 */
-                max-width: 350px; /* 최대 너비 제한 */
+                width: 90%; 
+                max-width: 350px; 
+                height: auto; 
+                padding-bottom: 0; 
                 margin: 0 auto;
             }
             
-            .app-title, .app-subtitle, .download-link { color: var(--text-color-light); }
+
+            .app-title, .app-subtitle { 
+                font-size: 2.2em;
+                color: var(--text-color-light); 
+            }
+            .download-link { color: var(--text-color-light); }
         }
     </style>
 </head>
@@ -338,9 +354,9 @@
         <div class="gift-box-body" id="main-content">
             
             <div class="left-panel">
-                <div class="app-title">to Maya</div>
+                <div class="app-title signature-text">to Maya</div>
                 <div class="tree-calendar-container"></div>
-                <div class="app-subtitle">from Rosanna</div>
+                <div class="app-subtitle signature-text">from Rosanna</div>
             </div>
 
             <div class="right-panel">
@@ -375,7 +391,6 @@
     </div>
 
     <script>
-        // 자바스크립트 코드는 변경 사항이 없으므로 그대로 유지됩니다.
         const WORKER_API_ENDPOINT = "https://advent.bbglara.workers.dev/"; 
 
         const IMAGE_URLS = [
