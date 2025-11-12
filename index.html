@@ -24,50 +24,47 @@
         }
 
         body {
-            /* 🐛 삭제: 스크롤이 안 생기게 하던 주범. 스크롤 허용! */
             background-color: var(--bg-color-main); 
             display: flex;
+            /* 🐛 변경: 다시 중앙 정렬로 복귀하여 상자 주변에 여백을 확보 */
             justify-content: center;
-            align-items: flex-start; /* flex-start로 변경하여 콘텐츠가 위에서 시작하도록 함 */
+            align-items: center; 
             min-height: 100vh; 
             margin: 0;
-            padding: 20px 0; /* 좌우 패딩을 0으로 줄여 모바일에서 꽉 차게 보일 여지 확보 */
-            /* overflow: hidden; 삭제됨 */
+            padding: 20px 0; 
             
-            /* ✨ 배경 이미지 조정: PC와 모바일 모두에 적용 (모바일에서 전체 배경 이미지 역할) */
-            background-image: url('https://i.imgur.com/J9BttEL.jpeg'); /* 기존 뚜껑 이미지 사용 */
+            /* 배경 이미지: 상자 밖의 전체 배경 역할 */
+            background-image: url('https://i.imgur.com/J9BttEL.jpeg'); 
             background-size: cover;
-            background-position: center top; /* 이미지를 상단 중앙에 배치 */
+            background-position: center top; 
             background-repeat: no-repeat;
-            background-attachment: fixed; /* 배경 이미지 고정 (스크롤 시 움직이지 않음) */
+            background-attachment: fixed; 
         }
         
         .gift-wrapper {
             position: relative;
-            /* 🐛 변경: PC 고정 크기(800px x 600px)에서 반응형으로 변경 */
+            /* 🐛 변경: 모바일에서도 상자 느낌이 나도록 최소 높이를 다시 설정 */
             width: 90%; 
             max-width: 800px; 
-            height: auto; /* 내용물에 따라 높이가 결정되도록 */
-            min-height: 600px; /* 최소 높이 유지 (PC 레이아웃 보존 목적) */
+            height: auto; 
+            min-height: 600px; 
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             border-radius: 8px;
-            /* 추가: 중앙 정렬을 위해 margin-top/bottom 조정 */
             margin: 20px auto; 
-            overflow: hidden; /* 박스 내부 콘텐츠만 벗어나지 않도록 */
+            overflow: hidden; 
         }
         
-        /* PC 버전의 뚜껑과 리본은 메인 배경으로 처리되었으므로, .gift-wrapper 내의 뚜껑/리본은 PC 스타일 유지 */
         .gift-box-lid {
             position: absolute;
             top: 0;
             width: 105%; 
+            /* 🐛 변경: PC에서는 10% 유지 (모바일 미디어쿼리에서 조정) */
             height: 10%; 
             background-color: transparent; 
             z-index: 10; 
             border-bottom: 5px solid var(--box-lid-gray);
             left: 50%;
             transform: translateX(-50%); 
-            /* 뚜껑 이미지 (바깥 body로 이동): PC버전에서는 유지 */
             background-image: url('https://i.imgur.com/J9BttEL.jpeg'); 
             background-size: cover;
             background-position: center;
@@ -79,26 +76,26 @@
             left: 0;
             width: 100%;
             height: 90%; 
+            /* 🐛 변경: PC에서는 나란히 (flex) */
             display: flex; 
             padding: 20px;
             box-sizing: border-box;
             border-top: 5px solid var(--box-lid-gray);
             
-            /* ✨ 바디 배경 이미지 조정 */
+            /* 바디 배경 이미지 */
             background-image: url('https://i.imgur.com/1b7LMni.jpeg');
-            background-size: cover; /* 이미지가 잘리지 않게 cover 유지 */
+            background-size: cover; 
             background-position: center;
-            /* 배경 이미지가 스크롤과 함께 움직이지 않도록 고정 */
             background-attachment: fixed; 
         }
         
-        /* 리본 관련 스타일은 PC 레이아웃 그대로 유지 */
         .ribbon-container {
             position: absolute;
             top: 50%; 
             left: 50%; 
-            width: 800px; 
-            height: 600px; 
+            /* 🐛 변경: 모바일에서 크기 조정이 용이하도록 PC 고정 크기 제거 */
+            width: 100%; 
+            height: 100%; 
             transform: translate(-50%, -50%); 
             z-index: 999; 
             pointer-events: none;
@@ -138,7 +135,6 @@
             z-index: 2; 
             border-radius: 4px; 
             margin-right: 15px; 
-            /* PC버전에서 높이를 꽉 채우도록 flex-grow를 사용하지 않고 고정 너비와 justify-content로 배치 */
         }
         .app-title, .app-subtitle { color: var(--text-color-light); font-size: 1.5em; font-weight: bold; text-align: center; padding: 5px 10px; }
         .app-title { margin-top: 0; }
@@ -192,7 +188,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             z-index: 4; 
             margin: auto; 
-            max-width: 400px; /* PC에서도 퍼즐 컨테이너가 너무 커지는 것을 방지 */
+            max-width: 400px; 
         }
 
         .current-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; }
@@ -239,73 +235,90 @@
         @keyframes dot-animation { 0% { content: '.'; } 25% { content: '..'; } 50% { content: '...'; } 75% { content: '...'; } 100% { content: '.'; } }
 
 
-        /* 모바일 반응형 개선 */
+        /* 모바일 반응형 개선 (상자 모양 복원 및 수직 쌓기) */
         @media (max-width: 800px) {
             
             body {
-                /* 모바일에서는 상단에 딱 붙도록 조정 */
-                align-items: flex-start; 
-                padding: 0;
+                /* 모바일에서 상자 주변 마진을 확보하기 위해 padding을 다시 조정 */
+                padding: 20px 10px; 
             }
             
             .gift-wrapper { 
-                /* 🐛 변경: 모바일에서는 꽉 찬 화면으로 보이도록 너비를 100%로 설정, 최소 높이 제거 */
-                width: 100%; 
-                min-height: auto;
-                height: auto; 
-                max-width: 100%; 
-                border-radius: 0; 
-                margin: 0; /* 상하 마진 제거 */
-                box-shadow: none; /* 그림자 제거 */
+                /* 🐛 변경: 화면 너비에 꽉 차지 않도록 width 90% 유지, margin 조정 */
+                width: 90%; 
+                min-height: auto; /* 내용물에 맞춰 유동적으로 */
+                max-width: 500px; /* 모바일에서도 상자가 너무 넓어지지 않도록 최대 너비 제한 */
+                border-radius: 8px; 
+                margin: 0 auto; /* 상하 마진은 body padding으로 대체 */
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
             }
             
-            .gift-box-lid, .ribbon-container { 
-                /* 🐛 변경: 모바일에서 상자 모양을 위해 뚜껑과 리본 요소를 숨김 */
-                display: none; 
+            .gift-box-lid { 
+                /* 🐛 변경: 뚜껑 다시 보이게 */
+                display: block; 
+                height: 50px; /* 뚜껑 높이 고정 (선물 상자 비율 유지) */
+                border-bottom: none; /* 뚜껑과 본체 간의 경계선 제거 */
             } 
 
             .gift-box-body { 
-                position: relative; /* absolute 해제하고 relative로 전환 */
-                height: auto; 
+                /* 🐛 변경: 뚜껑이 relative가 되었으므로 body도 relative로 변경하여 정상적인 흐름 유지 */
+                position: relative; 
+                height: auto; /* 높이를 콘텐츠에 맞춤 */
                 width: 100%; 
-                padding: 20px; /* 내부 패딩을 다시 설정 */
+                padding: 10px; /* 내부 패딩 조정 */
                 border-top: none; 
+                
+                /* 🐛 변경: 트리와 이미지를 수직으로 쌓기 */
                 flex-direction: column; 
                 
-                /* 배경 이미지: 모바일에서 콘텐츠의 배경이 되도록 조정 (body 배경과 구분) */
+                /* 배경 이미지: 모바일에서 상자 본체의 배경이 되도록 cover 유지 */
                 background-size: cover; 
-                background-repeat: no-repeat; 
-                background-position: center;
-                background-attachment: scroll; /* 스크롤과 함께 움직이도록 변경 */
-                min-height: 100vh; /* 모바일에서 최소한 화면 높이만큼은 채우도록 */
+                background-attachment: scroll; 
+                min-height: 400px; /* 최소 높이 보장 */
+                
+                /* 뚜껑이 차지하는 영역을 고려하여 body의 시작 위치를 조정 */
+                top: 0; 
+                bottom: auto; 
             }
             
+            .ribbon-container {
+                /* 🐛 변경: 리본 다시 보이게 하고, 상자 중앙에 고정되도록 조정 */
+                display: block;
+                /* position: absolute; 대신 fixed를 사용하여 상자 중앙에 고정 (선택 사항) */
+                position: absolute; 
+                width: 100%; /* 부모에 맞춤 */
+                height: 100%; /* 부모에 맞춤 */
+                top: 0;
+                left: 0;
+                transform: none;
+                z-index: 110;
+            }
+
+            .ribbon-bow {
+                /* 모바일 상자 상단 중앙에 리본 배치 */
+                top: 25px; /* 뚜껑 아래에 위치하도록 조정 */
+            }
+
             .left-panel { 
                 flex: none; 
                 width: 100%; 
-                border-right: none; 
-                border-bottom: 1px dashed var(--text-color-light); /* 깔끔한 구분선 */
-                padding: 20px 20px 30px 20px; 
+                border-bottom: 1px dashed var(--text-color-light); 
+                padding: 20px 10px 30px 10px; 
                 margin-right: 0;
             }
             .right-panel { 
                 flex-grow: 1; 
                 width: 100%; 
-                padding: 30px 20px 20px 20px; 
-                justify-content: flex-start; /* 상단부터 채우도록 */
+                padding: 30px 10px 20px 10px; 
+                justify-content: flex-start; 
             }
             
             .image-puzzle-container { 
-                /* 🐛 변경: 모바일에서 화면 비율에 맞게 너비 조정 */
-                width: 100%; 
-                height: auto; 
-                /* 패딩 기반 비율 계산 삭제: width: 100%; aspect-ratio: 1748 / 2480; 만으로 충분 */
-                padding-bottom: 0; 
-                max-width: 400px;
-                margin-top: 0; 
+                width: 90%; /* 모바일에서 퍼즐 너비 축소 */
+                max-width: 350px; /* 최대 너비 제한 */
+                margin: 0 auto;
             }
             
-            /* 모바일에서 텍스트 색상 통일성 유지 */
             .app-title, .app-subtitle, .download-link { color: var(--text-color-light); }
         }
     </style>
@@ -362,6 +375,7 @@
     </div>
 
     <script>
+        // 자바스크립트 코드는 변경 사항이 없으므로 그대로 유지됩니다.
         const WORKER_API_ENDPOINT = "https://advent.bbglara.workers.dev/"; 
 
         const IMAGE_URLS = [
