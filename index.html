@@ -17,6 +17,10 @@
             --bg-color-main: #f0f0f0; 
             --text-color-light: #f7f7f7; 
             --text-color-dark: #333; 
+            --puzzle-lid-texture: url('https://i.imgur.com/J9BttEL.jpeg');
+            /* ✨ 추가: 글로우 효과에 사용할 흰색 */
+            --glow-white: rgba(255, 255, 255, 0.7); /* 은은한 반투명 흰색 */
+            --glow-strong: rgba(255, 255, 255, 0.9); /* 좀 더 강한 흰색 */
         }
 
         * {
@@ -29,6 +33,7 @@
         /* PC 기본 스타일 (800px 초과 시) */
         /* ------------------------------------ */
         body {
+            /* PC 기본 배경색: 연한 회색 */
             background-color: var(--bg-color-main); 
             display: flex;
             justify-content: center;
@@ -57,7 +62,7 @@
             border-bottom: 5px solid var(--box-lid-gray);
             left: 50%;
             transform: translateX(-50%); 
-            background-image: url('https://i.imgur.com/J9BttEL.jpeg'); 
+            background-image: var(--puzzle-lid-texture); 
             background-size: cover;
             background-position: center;
         }
@@ -114,6 +119,7 @@
             z-index: 2;
         }
         
+        /* 🐛 이 요소들은 이미 display: none 처리되어 있습니다. */
         .ribbon-string { display: none; } 
         .ribbon-tag-string { display: none; } 
         
@@ -166,16 +172,31 @@
         .calendar-day-tree {
             width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; margin: 0 2px;
             font-weight: bold; font-size: 14px; color: var(--text-color-dark); background-color: #fcfcfc; 
-            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); transition: all 0.3s; border-radius: 3px; cursor: default; 
+            /* 🐛 수정/추가: 기본 box-shadow에 글로우 추가 */
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1), 0 0 5px var(--glow-white); 
+            transition: all 0.3s; border-radius: 3px; cursor: default; 
         }
         
-        .calendar-day-tree.star { font-size: 20px; color: var(--ribbon-gold-light); background: none; box-shadow: none; margin-bottom: 5px; }
+        .calendar-day-tree.star { 
+            font-size: 20px; 
+            color: var(--ribbon-gold-light); 
+            background: none; 
+            box-shadow: none; /* 별은 글로우 없이 */
+            margin-bottom: 5px; 
+        }
         
         .calendar-day-tree.past, 
         .calendar-day-tree.today {
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+            /* 💡 수정: 'past'와 'today' 상태일 때의 그림자 효과 조정 */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2), 0 0 8px var(--glow-white); 
             border: none;
         }
+        
+        /* 💡 추가: 'today' 클래스에 더 강한 글로우 효과 적용 */
+        .calendar-day-tree.today {
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3), 0 0 12px 3px var(--glow-strong); /* 더 넓고 강한 글로우 */
+        }
+
 
         .calendar-day-tree.day-1-to-4.past, 
         .calendar-day-tree.day-1-to-4.today {
@@ -217,6 +238,9 @@
         .cover-box { 
             position: relative; 
             background-color: var(--box-lid-gray); 
+            background-image: var(--puzzle-lid-texture); 
+            background-size: cover;
+            background-position: center;
             border: 1px solid rgba(255, 255, 255, 0.3); 
             cursor: pointer; 
             transition: opacity 0.5s ease-out, transform 0.3s ease; 
@@ -264,10 +288,10 @@
             
             body {
                 overflow: auto;
-                padding: 20px 10px; 
+                /* 💡 수정: 상단 패딩을 늘려 상단 여백 확보 (20px -> 40px) */
+                padding: 40px 10px 20px 10px; 
                 align-items: flex-start; 
                 min-height: auto;
-                background-color: transparent; 
             }
 
             .gift-wrapper { 
@@ -295,21 +319,33 @@
                 border-bottom: none; 
                 order: 2; 
                 background-color: var(--box-lid-gray); 
+                background-image: var(--puzzle-lid-texture);
+                background-size: cover;
+                background-position: center;
+                /* 💡 추가: 뚜껑의 상단 모서리가 부드러워지도록 border-top-left/right-radius 적용 */
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+                
+                /* 💡 중요: 리본 이미지의 글로우가 뚜껑 위로 넘치지 않도록 처리 */
+                z-index: 1; /* 리본(z-index: 1)과 뚜껑이 겹쳐 보이는 것을 방지하기 위해 낮춤 */
+                overflow: hidden; /* 리본 이미지의 글로우가 넘치는 것을 막는 보조 수단 */
             } 
             
             /* 리본 컨테이너: 1번째 순서 (가장 위) */
             .ribbon-container {
                 display: block;
                 position: relative; 
-                height: 50px; 
+                /* 💡 수정: 마진 제거 */
+                /* margin-top: 20px; */ 
+                height: 0; 
                 width: 100%; 
                 top: auto; 
                 left: auto; 
                 transform: none;
-                z-index: 1; 
+                z-index: 2; /* 💡 수정: 리본이 뚜껑보다 위에 보이도록 z-index를 2로 설정 */
                 pointer-events: none; 
                 order: 1; 
-                margin-bottom: -26px; 
+                margin-bottom: 0; 
             }
             
             .ribbon-bow {
@@ -321,8 +357,14 @@
             }
 
             .ribbon-image {
-                top: -26px; 
+                top: -36px; 
             }
+            
+            .ribbon-string, 
+            .ribbon-tag-string { 
+                 display: none; 
+            }
+
 
             /* 본체: 3번째 순서 (가장 아래) */
             .gift-box-body { 
