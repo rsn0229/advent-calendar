@@ -10,367 +10,378 @@
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Ephesis&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --box-body-blue: #315a7f;
-            --box-lid-gray: #BCBCBC; 
-            --ribbon-gold-light: #ffe79f; 
-            --bg-color-main: #f0f0f0; 
-            --text-color-light: #f7f7f7; 
-            --text-color-dark: #333; 
-        }
+    :root {
+        --box-body-blue: #315a7f;
+        --box-lid-gray: #BCBCBC; 
+        --ribbon-gold-light: #ffe79f; 
+        --bg-color-main: #f0f0f0; 
+        --text-color-light: #f7f7f7; 
+        --text-color-dark: #333; 
+    }
 
-        * {
-            box-sizing: border-box;
-            font-family: 'Gowun Dodum', sans-serif; 
-            user-select: none;
-        }
+    * {
+        box-sizing: border-box;
+        font-family: 'Gowun Dodum', sans-serif; 
+        user-select: none;
+    }
 
-        /* ------------------------------------ */
-        /* PC 기본 스타일 (800px 초과 시) */
-        /* ------------------------------------ */
+    /* ------------------------------------ */
+    /* PC 기본 스타일 (800px 초과 시) */
+    /* ------------------------------------ */
+    body {
+        background-color: var(--bg-color-main); 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh; 
+        margin: 0;
+        padding: 20px; 
+        overflow: hidden; 
+    }
+    
+    .gift-wrapper {
+        position: relative;
+        width: 800px; 
+        height: 600px; 
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+    }
+    
+    .gift-box-lid {
+        position: absolute;
+        top: 0;
+        width: 105%; 
+        height: 10%; 
+        background-color: transparent; 
+        z-index: 10; 
+        border-bottom: 5px solid var(--box-lid-gray);
+        left: 50%;
+        transform: translateX(-50%); 
+        background-image: url('https://i.imgur.com/J9BttEL.jpeg'); 
+        background-size: cover;
+        background-position: center;
+    }
+
+    .gift-box-body {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 90%; 
+        display: flex; 
+        flex-direction: row; 
+        padding: 20px;
+        box-sizing: border-box;
+        border-top: 5px solid var(--box-lid-gray);
+        background-image: url('https://i.imgur.com/1b7LMni.jpeg');
+        background-size: cover;
+        background-position: center;
+    }
+    
+    /* PC 리본: 상자 위에 절대 위치 */
+    .ribbon-container {
+        position: absolute;
+        top: 50%; 
+        left: 50%; 
+        width: 800px; 
+        height: 600px; 
+        transform: translate(-50%, -50%); 
+        z-index: 999; 
+        pointer-events: none;
+    }
+    
+    .ribbon-bow {
+        position: absolute; 
+        top: -35px; 
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px; 
+        height: 100px; 
+        pointer-events: all;
+    }
+    
+    .ribbon-image {
+        position: absolute;
+        width: 100px; 
+        height: 100px;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background-image: url('https://i.imgur.com/24k13pU.png'); 
+        background-size: contain;
+        background-repeat: no-repeat;
+        pointer-events: all;
+        z-index: 2;
+    }
+    
+    .ribbon-string { display: none; } 
+    .ribbon-tag-string { display: none; } 
+    
+    .left-panel { 
+        flex: 0 0 350px; padding: 20px; display: flex; flex-direction: column; align-items: center; 
+        justify-content: space-between; 
+        background-color: transparent; 
+        z-index: 2; 
+        border-radius: 4px; 
+        margin-right: 15px; 
+    }
+    
+    .signature-text {
+        font-family: 'Ephesis', cursive; 
+        color: var(--text-color-light) !important; 
+        line-height: 1.1;
+    }
+
+    .app-title { 
+        font-size: 2.2em; 
+        font-weight: normal; 
+        text-align: center; 
+        padding: 5px 10px; 
+        margin-top: 0; 
+    }
+    
+    .app-subtitle { 
+        font-size: 2.2em; 
+        font-weight: normal; 
+        text-align: center; 
+        padding: 5px 10px; 
+        margin-bottom: 0; 
+    }
+    
+    .tree-calendar-container { 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        padding: 10px 0; 
+        flex-grow: 1; 
+        justify-content: center; 
+    }
+
+    .calendar-row { 
+        display: flex; 
+        justify-content: center; 
+        margin-bottom: 5px; 
+    }
+
+    .calendar-day-tree {
+        width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; margin: 0 2px;
+        font-weight: bold; font-size: 14px; color: var(--text-color-dark); background-color: #fcfcfc; 
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); transition: all 0.3s; border-radius: 3px; cursor: default; 
+    }
+    
+    .calendar-day-tree.star { font-size: 20px; color: var(--ribbon-gold-light); background: none; box-shadow: none; margin-bottom: 5px; }
+    
+    .calendar-day-tree.past, 
+    .calendar-day-tree.today {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+        border: none;
+    }
+
+    .calendar-day-tree.day-1-to-4.past, 
+    .calendar-day-tree.day-1-to-4.today {
+        background-color: #bca48c;
+        color: var(--text-color-light);
+    }
+
+    .calendar-day-tree.day-5-to-24.past, 
+    .calendar-day-tree.day-5-to-24.today {
+        background-color: #a4d290;
+        color: var(--text-color-dark);
+    }
+
+    .right-panel { 
+        flex-grow: 1; padding: 20px; display: flex; flex-direction: column; align-items: center; 
+        justify-content: center; 
+        background-color: transparent; 
+        z-index: 2; 
+        border-radius: 4px; 
+    }
+
+    .image-puzzle-container {
+        position: relative;
+        width: auto; 
+        height: 100%; 
+        max-height: 100%; 
+        aspect-ratio: 1748 / 2480; 
+        overflow: hidden;
+        border: 5px solid var(--box-lid-gray); 
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 4; 
+        margin: auto; 
+    }
+
+    .current-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; }
+    .cover-grid { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); z-index: 5; }
+    
+    .cover-box { 
+        position: relative; 
+        background-color: var(--box-lid-gray); 
+        border: 1px solid rgba(255, 255, 255, 0.3); 
+        cursor: pointer; 
+        transition: opacity 0.5s ease-out, transform 0.3s ease; 
+    }
+    .cover-box.hidden { opacity: 0; pointer-events: none; }
+    
+
+    .cover-box::after {
+        content: attr(data-emoji); 
+        font-size: 3em; 
+        font-weight: bold;
+        color: var(--text-color-dark); 
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.6); 
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%); z-index: 6; pointer-events: none;
+    }
+    
+    .download-link { color: var(--text-color-light); text-align: center; margin-top: 20px; font-size: 1.1em; display: none; }
+    .download-link a { color: var(--ribbon-gold-light); text-decoration: none; font-weight: bold; } 
+
+
+    .popup-modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+    .popup-content { background-color: #ffffff; color: #333333; padding: 30px; border-radius: 10px; text-align: center; max-width: 350px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); font-size: 1.2em; }
+    .popup-content button { margin-top: 20px; padding: 10px 20px; background-color: var(--box-body-blue); color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; font-weight: bold; transition: background-color 0.3s; }
+    .popup-content button:hover { background-color: #214364; }
+    
+    #loading-overlay { 
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+        background-color: rgba(0, 0, 0, 0.65); 
+        display: flex; flex-direction: column; justify-content: center; align-items: center; 
+        z-index: 1000; 
+        transition: opacity 0.5s; opacity: 1; 
+    }
+    #loading-text { color: white; font-size: 1.8em; font-weight: bold; display: flex; align-items: center; }
+    
+    /* 🐛 복구: 사라진 로딩 애니메이션 Keyframes 정의 */
+    #loading-dots::after { content: ''; animation: dot-animation 1s steps(4, start) infinite; }
+    @keyframes dot-animation { 0% { content: '.'; } 25% { content: '..'; } 50% { content: '...'; } 75% { content: '...'; } 100% { content: '.'; } }
+
+
+    /* ------------------------------------ */
+    /* 모바일 스타일 (800px 이하 시) 재정의 */
+    /* ------------------------------------ */
+    @media (max-width: 800px) {
+        
         body {
-            background-color: var(--bg-color-main); 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh; 
-            margin: 0;
-            padding: 20px; 
-            overflow: hidden; 
-        }
-        
-        .gift-wrapper {
-            position: relative;
-            width: 800px; 
-            height: 600px; 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-        }
-        
-        .gift-box-lid {
-            position: absolute;
-            top: 0;
-            width: 105%; 
-            height: 10%; 
+            overflow: auto;
+            padding: 20px 10px; 
+            align-items: flex-start; 
+            min-height: auto;
             background-color: transparent; 
-            z-index: 10; 
-            border-bottom: 5px solid var(--box-lid-gray);
-            left: 50%;
-            transform: translateX(-50%); 
-            background-image: url('https://i.imgur.com/J9BttEL.jpeg'); 
-            background-size: cover;
-            background-position: center;
         }
 
-        .gift-box-body {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 90%; 
-            display: flex; 
-            flex-direction: row; 
-            padding: 20px;
-            box-sizing: border-box;
-            border-top: 5px solid var(--box-lid-gray);
-            background-image: url('https://i.imgur.com/1b7LMni.jpeg');
-            background-size: cover;
-            background-position: center;
+        .gift-wrapper { 
+            width: 90%; 
+            max-width: 500px; 
+            height: auto; 
+            min-height: auto;
+            border-radius: 8px; 
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
+            
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-color-main); 
         }
         
-        /* PC 리본: 상자 위에 절대 위치 */
+        /* 뚜껑 */
+        .gift-box-lid { 
+            display: block; 
+            position: relative; 
+            height: 51px; 
+            width: 100%; 
+            transform: none; 
+            left: 0;
+            border-bottom: none; 
+            order: 2; 
+            background-color: var(--box-lid-gray); 
+        } 
+        
+        /* 리본 – 뚜껑 밀착 보정 완료 */
         .ribbon-container {
-            position: absolute;
-            top: 50%; 
-            left: 50%; 
-            width: 800px; 
-            height: 600px; 
-            transform: translate(-50%, -50%); 
-            z-index: 999; 
-            pointer-events: none;
+            display: block;
+            position: relative; 
+            height: 50px; 
+            width: 100%; 
+            top: auto; 
+            left: auto; 
+            transform: none;
+            z-index: 2; 
+            pointer-events: none; 
+            order: 1; 
+
+            /* gap 제거 핵심 */
+            margin-bottom: -20px;
         }
         
         .ribbon-bow {
-            position: absolute; 
-            top: -35px; 
+            position: absolute;
+            top: 0; 
             left: 50%;
             transform: translateX(-50%);
-            width: 120px; 
-            height: 100px; 
             pointer-events: all; 
         }
-        
+
         .ribbon-image {
+            top: -20px; /* gap 제거 핵심 */
             position: absolute;
             width: 100px; 
             height: 100px;
-            top: 0;
             left: 50%;
             transform: translateX(-50%);
-            background-image: url('https://i.imgur.com/24k13pU.png'); 
+            background-image: url('https://i.imgur.com/24k13pU.png');
             background-size: contain;
             background-repeat: no-repeat;
-            pointer-events: all;
-            z-index: 2;
         }
-        
-        .ribbon-string { display: none; } 
-        .ribbon-tag-string { display: none; } 
+
+        /* 본체 */
+        .gift-box-body { 
+            position: relative; 
+            bottom: auto; 
+            height: auto; 
+            flex-direction: column; 
+            padding: 10px; 
+            border-top: none; 
+            min-height: 400px;
+            flex-grow: 1;
+            order: 3; 
+        }
         
         .left-panel { 
-            flex: 0 0 350px; padding: 20px; display: flex; flex-direction: column; align-items: center; 
-            justify-content: space-between; 
-            background-color: transparent; 
-            z-index: 2; 
-            border-radius: 4px; 
-            margin-right: 15px; 
+            flex: none; 
+            width: 100%; 
+            border-bottom: 1px dashed var(--text-color-light); 
+            padding: 20px 10px 30px 10px; 
+            margin-right: 0;
         }
         
-        .signature-text {
-            font-family: 'Ephesis', cursive; 
-            color: var(--text-color-light) !important; 
-            line-height: 1.1;
-        }
-
-        .app-title { 
-            font-size: 2.2em; 
-            font-weight: normal; 
-            text-align: center; 
-            padding: 5px 10px; 
-            margin-top: 0; 
-        }
-        
-        .app-subtitle { 
-            font-size: 2.2em; 
-            font-weight: normal; 
-            text-align: center; 
-            padding: 5px 10px; 
-            margin-bottom: 0; 
-        }
-        
-        .tree-calendar-container { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            padding: 10px 0; 
-            flex-grow: 1; 
-            justify-content: center; 
-        }
-
-        .calendar-row { 
-            display: flex; 
-            justify-content: center; 
-            margin-bottom: 5px; 
-        }
-
-        .calendar-day-tree {
-            width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; margin: 0 2px;
-            font-weight: bold; font-size: 14px; color: var(--text-color-dark); background-color: #fcfcfc; 
-            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); transition: all 0.3s; border-radius: 3px; cursor: default; 
-        }
-        
-        .calendar-day-tree.star { font-size: 20px; color: var(--ribbon-gold-light); background: none; box-shadow: none; margin-bottom: 5px; }
-        
-        .calendar-day-tree.past, 
-        .calendar-day-tree.today {
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
-            border: none;
-        }
-
-        .calendar-day-tree.day-1-to-4.past, 
-        .calendar-day-tree.day-1-to-4.today {
-            background-color: #bca48c;
-            color: var(--text-color-light);
-        }
-
-        .calendar-day-tree.day-5-to-24.past, 
-        .calendar-day-tree.day-5-to-24.today {
-            background-color: #a4d290;
-            color: var(--text-color-dark);
-        }
-
         .right-panel { 
-            flex-grow: 1; padding: 20px; display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; 
-            background-color: transparent; 
-            z-index: 2; 
-            border-radius: 4px; 
+            flex-grow: 1; 
+            width: 100%; 
+            padding: 30px 10px 20px 10px; 
+            justify-content: flex-start; 
         }
-
-        .image-puzzle-container {
-            position: relative;
-            width: auto; 
-            height: 100%; 
-            max-height: 100%; 
-            aspect-ratio: 1748 / 2480; 
-            overflow: hidden;
-            border: 5px solid var(--box-lid-gray); 
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 4; 
-            margin: auto; 
-        }
-
-        .current-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; }
-        .cover-grid { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); z-index: 5; }
         
-        .cover-box { 
-            position: relative; 
-            background-color: var(--box-lid-gray); 
-            border: 1px solid rgba(255, 255, 255, 0.3); 
-            cursor: pointer; 
-            transition: opacity 0.5s ease-out, transform 0.3s ease; 
+        .image-puzzle-container { 
+            width: 90%; 
+            max-width: 350px; 
+            height: auto; 
+            padding-bottom: 0; 
+            margin: 0 auto;
         }
-        .cover-box.hidden { opacity: 0; pointer-events: none; }
         
-
         .cover-box::after {
-            content: attr(data-emoji); 
-            font-size: 3em; 
-            font-weight: bold;
-            color: var(--text-color-dark); 
-            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.6); 
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); z-index: 6; pointer-events: none;
+            font-size: 2em; 
         }
-        
-        .download-link { color: var(--text-color-light); text-align: center; margin-top: 20px; font-size: 1.1em; display: none; }
-        .download-link a { color: var(--ribbon-gold-light); text-decoration: none; font-weight: bold; } 
 
-
-        .popup-modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
-        .popup-content { background-color: #ffffff; color: #333333; padding: 30px; border-radius: 10px; text-align: center; max-width: 350px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); font-size: 1.2em; }
-        .popup-content button { margin-top: 20px; padding: 10px 20px; background-color: var(--box-body-blue); color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; font-weight: bold; transition: background-color 0.3s; }
-        .popup-content button:hover { background-color: #214364; }
-        
-        #loading-overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background-color: rgba(0, 0, 0, 0.65); 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            z-index: 1000; 
-            transition: opacity 0.5s; opacity: 1; 
+        .app-title, .app-subtitle { 
+            font-size: 2.2em; 
+            color: var(--text-color-light); 
         }
-        #loading-text { color: white; font-size: 1.8em; font-weight: bold; display: flex; align-items: center; }
-        
-        /* 🐛 복구: 사라진 로딩 애니메이션 Keyframes 정의 */
-        #loading-dots::after { content: ''; animation: dot-animation 1s steps(4, start) infinite; }
-        @keyframes dot-animation { 0% { content: '.'; } 25% { content: '..'; } 50% { content: '...'; } 75% { content: '...'; } 100% { content: '.'; } }
+        .download-link { color: var(--text-color-light); }
+    }
+</style>
 
-
-        /* ------------------------------------ */
-        /* 모바일 스타일 (800px 이하 시) 재정의 */
-        /* ------------------------------------ */
-        @media (max-width: 800px) {
-            
-            body {
-                overflow: auto;
-                padding: 20px 10px; 
-                align-items: flex-start; 
-                min-height: auto;
-                background-color: transparent; 
-            }
-
-            .gift-wrapper { 
-                width: 90%; 
-                max-width: 500px; 
-                height: auto; 
-                min-height: auto;
-                border-radius: 8px; 
-                margin: 0 auto;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
-                
-                display: flex;
-                flex-direction: column;
-                background-color: var(--bg-color-main); 
-            }
-            
-            /* 뚜껑: 2번째 순서 */
-            .gift-box-lid { 
-                display: block; 
-                position: relative; 
-                height: 51px; 
-                width: 100%; 
-                transform: none; 
-                left: 0;
-                border-bottom: none; 
-                order: 2; 
-                background-color: var(--box-lid-gray); 
-            } 
-            
-            /* 리본 컨테이너: 1번째 순서 (가장 위) */
-            .ribbon-container {
-                display: block;
-                position: relative; 
-                height: 50px; 
-                width: 100%; 
-                top: auto; 
-                left: auto; 
-                transform: none;
-                z-index: 1; 
-                pointer-events: none; 
-                order: 1; 
-                margin-bottom: -26px; 
-            }
-            
-            .ribbon-bow {
-                position: absolute;
-                top: 0; 
-                left: 50%;
-                transform: translateX(-50%);
-                pointer-events: all; 
-            }
-
-            .ribbon-image {
-                top: -26px; 
-            }
-
-            /* 본체: 3번째 순서 (가장 아래) */
-            .gift-box-body { 
-                position: relative; 
-                bottom: auto; 
-                height: auto; 
-                flex-direction: column; 
-                padding: 10px; 
-                border-top: none; 
-                min-height: 400px;
-                flex-grow: 1;
-                order: 3; 
-            }
-            
-            .left-panel { 
-                flex: none; 
-                width: 100%; 
-                border-bottom: 1px dashed var(--text-color-light); 
-                padding: 20px 10px 30px 10px; 
-                margin-right: 0;
-            }
-            
-            .right-panel { 
-                flex-grow: 1; 
-                width: 100%; 
-                padding: 30px 10px 20px 10px; 
-                justify-content: flex-start; 
-            }
-            
-            .image-puzzle-container { 
-                width: 90%; 
-                max-width: 350px; 
-                height: auto; 
-                padding-bottom: 0; 
-                margin: 0 auto;
-            }
-            
-            .cover-box::after {
-                font-size: 2em; 
-            }
-
-            .app-title, .app-subtitle { 
-                font-size: 2.2em; 
-                color: var(--text-color-light); 
-            }
-            .download-link { color: var(--text-color-light); }
-        }
-    </style>
 </head>
 
 <body>
