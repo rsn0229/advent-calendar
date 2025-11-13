@@ -18,9 +18,8 @@
             --text-color-light: #f7f7f7; 
             --text-color-dark: #333; 
             --puzzle-lid-texture: url('https://i.imgur.com/J9BttEL.jpeg');
-            /* ✨ 추가: 글로우 효과에 사용할 흰색 */
-            --glow-white: rgba(255, 255, 255, 0.7); /* 은은한 반투명 흰색 */
-            --glow-strong: rgba(255, 255, 255, 0.9); /* 좀 더 강한 흰색 */
+            --glow-white: rgba(255, 255, 255, 0.7);
+            --glow-strong: rgba(255, 255, 255, 0.9);
         }
 
         * {
@@ -33,7 +32,6 @@
         /* PC 기본 스타일 (800px 초과 시) */
         /* ------------------------------------ */
         body {
-            /* PC 기본 배경색: 연한 회색 */
             background-color: var(--bg-color-main); 
             display: flex;
             justify-content: center;
@@ -119,7 +117,6 @@
             z-index: 2;
         }
         
-        /* 🐛 이 요소들은 이미 display: none 처리되어 있습니다. */
         .ribbon-string { display: none; } 
         .ribbon-tag-string { display: none; } 
         
@@ -172,7 +169,6 @@
         .calendar-day-tree {
             width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; margin: 0 2px;
             font-weight: bold; font-size: 14px; color: var(--text-color-dark); background-color: #fcfcfc; 
-            /* 🐛 수정/추가: 기본 box-shadow에 글로우 추가 */
             box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1), 0 0 5px var(--glow-white); 
             transition: all 0.3s; border-radius: 3px; cursor: default; 
         }
@@ -181,20 +177,18 @@
             font-size: 20px; 
             color: var(--ribbon-gold-light); 
             background: none; 
-            box-shadow: none; /* 별은 글로우 없이 */
+            box-shadow: none;
             margin-bottom: 5px; 
         }
         
         .calendar-day-tree.past, 
         .calendar-day-tree.today {
-            /* 💡 수정: 'past'와 'today' 상태일 때의 그림자 효과 조정 */
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2), 0 0 8px var(--glow-white); 
             border: none;
         }
         
-        /* 💡 추가: 'today' 클래스에 더 강한 글로우 효과 적용 */
         .calendar-day-tree.today {
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3), 0 0 12px 3px var(--glow-strong); /* 더 넓고 강한 글로우 */
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3), 0 0 12px 3px var(--glow-strong);
         }
 
 
@@ -230,6 +224,8 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             z-index: 4; 
             margin: auto; 
+            /* 💡 중요: 12월 1일 이전 데모 이미지 클릭을 위해 cursor: pointer 추가 */
+            cursor: pointer; 
         }
 
         .current-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; }
@@ -288,7 +284,6 @@
             
             body {
                 overflow: auto;
-                /* 💡 수정: 상단 패딩을 늘려 상단 여백 확보 (20px -> 40px) */
                 padding: 40px 10px 20px 10px; 
                 align-items: flex-start; 
                 min-height: auto;
@@ -322,27 +317,23 @@
                 background-image: var(--puzzle-lid-texture);
                 background-size: cover;
                 background-position: center;
-                /* 💡 추가: 뚜껑의 상단 모서리가 부드러워지도록 border-top-left/right-radius 적용 */
                 border-top-left-radius: 8px;
                 border-top-right-radius: 8px;
                 
-                /* 💡 중요: 리본 이미지의 글로우가 뚜껑 위로 넘치지 않도록 처리 */
-                z-index: 1; /* 리본(z-index: 1)과 뚜껑이 겹쳐 보이는 것을 방지하기 위해 낮춤 */
-                overflow: hidden; /* 리본 이미지의 글로우가 넘치는 것을 막는 보조 수단 */
+                z-index: 1;
+                overflow: hidden;
             } 
             
             /* 리본 컨테이너: 1번째 순서 (가장 위) */
             .ribbon-container {
                 display: block;
                 position: relative; 
-                /* 💡 수정: 마진 제거 */
-                /* margin-top: 20px; */ 
                 height: 0; 
                 width: 100%; 
                 top: auto; 
                 left: auto; 
                 transform: none;
-                z-index: 2; /* 💡 수정: 리본이 뚜껑보다 위에 보이도록 z-index를 2로 설정 */
+                z-index: 2;
                 pointer-events: none; 
                 order: 1; 
                 margin-bottom: 0; 
@@ -400,6 +391,7 @@
                 height: auto; 
                 padding-bottom: 0; 
                 margin: 0 auto;
+                cursor: pointer; /* 💡 데모 이미지 클릭 가능하게 유지 */
             }
             
             .cover-box::after {
@@ -468,6 +460,8 @@
 
     <script>
         const WORKER_API_ENDPOINT = "https://advent.bbglara.workers.dev/"; 
+        // 💡 수정: 요청하신 더미 이미지 URL로 정확히 변경했습니다.
+        const FALLBACK_IMAGE_URL = 'https://i.imgur.com/eC9yMhA.png'; 
 
         const IMAGE_URLS = [
             'https://i.imgur.com/Ib76yJr.jpeg',
@@ -491,12 +485,14 @@
         const popupMessage = document.getElementById('popupMessage');
         const closePopupButton = document.getElementById('closePopup'); 
         const loadingOverlay = document.getElementById('loading-overlay');
-        const mainContent = document.getElementById('main-content'); 
+        // 💡 추가: 이미지 컨테이너 DOM 요소 가져오기
+        const imagePuzzleContainer = document.querySelector('.image-puzzle-container'); 
         
         const TODAY_DATE = getAdventDay(); 
         let openedDays = {};
         let currentImageIndex = 0;
         let openedPiecesCount = 0;
+        let currentPuzzleImageUrl = ''; 
 
         function getAdventDay() { 
             const now = new Date();
@@ -509,24 +505,43 @@
         }
 
         async function fetchOpenedDays() { 
+             if (TODAY_DATE === 0) {
+                 openedDays = {};
+                 return;
+            }
+            
             try {
                 const response = await fetch(WORKER_API_ENDPOINT, { method: 'GET' });
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    console.error(`HTTP error! status: ${response.status}. Proceeding with empty openedDays.`);
+                    openedDays = {};
+                    return; 
                 }
                 const result = await response.json();
                 if (result.status === 'success' && result.data) {
                     openedDays = result.data;
                 } else {
                     console.error('Failed to load data from server. Result:', result);
+                    openedDays = {};
                 }
             } catch (error) { 
-                 console.error('Network or Parse error during fetch:', error);
-                 openedDays = {};
+                console.error('Network or Parse error during fetch:', error);
+                openedDays = {};
             }
+        }
+
+        function hideLoadingOverlay() {
+             loadingOverlay.style.opacity = 0;
+             setTimeout(() => { 
+                loadingOverlay.style.display = 'none';
+             }, 500); 
         }
         
         async function saveOpenedDay(day, piece) { 
+             if (TODAY_DATE === 0) {
+                 return;
+             }
+            
             try {
                 const response = await fetch(WORKER_API_ENDPOINT, {
                     method: 'POST',
@@ -547,14 +562,41 @@
         }
 
         function updatePuzzleState() {
+            
+            if (TODAY_DATE === 0) {
+                currentPuzzleImageUrl = FALLBACK_IMAGE_URL;
+                currentImage.style.backgroundImage = `url('${currentPuzzleImageUrl}')`;
+                downloadLinkContainer.style.display = 'none';
+                
+                coverBoxes.forEach((box) => {
+                    box.classList.add('hidden'); 
+                    // cover-box의 클릭 이벤트는 어차피 가려져서 의미 없음. 아래 imagePuzzleContainer에 이벤트를 겁니다.
+                    box.onclick = null;
+                });
+
+                // 💡 수정: 데모 이미지 영역 전체에 클릭 이벤트를 걸어 팝업을 띄웁니다.
+                imagePuzzleContainer.onclick = function() { 
+                    showPopup('나머지 이미지는 12월에 만나요🎄'); 
+                };
+
+                createCalendar();
+                hideLoadingOverlay(); 
+                return;
+            }
+
+            // 12월 1일 이후 정상 로직
+            
+            // 💡 추가: 정상 작동 시에는 이미지 컨테이너의 클릭 이벤트를 제거합니다.
+            imagePuzzleContainer.onclick = null; 
+
             currentImageIndex = Math.floor((Math.min(TODAY_DATE, TOTAL_DAYS) - 1) / 4); 
             if (currentImageIndex < 0) { currentImageIndex = 0; } 
             if (currentImageIndex >= IMAGE_URLS.length) {
                 currentImageIndex = IMAGE_URLS.length - 1;
             }
             
-            const imageUrl = IMAGE_URLS[currentImageIndex];
-            currentImage.style.backgroundImage = `url('${imageUrl}')`;
+            currentPuzzleImageUrl = IMAGE_URLS[currentImageIndex]; 
+            currentImage.style.backgroundImage = `url('${currentPuzzleImageUrl}')`;
             
             const startDay = currentImageIndex * 4 + 1;
             openedPiecesCount = 0;
@@ -582,10 +624,17 @@
             
             checkImageCompletion();
             createCalendar(); 
+            hideLoadingOverlay(); 
         }
         
         async function handleBoxClick(box, clickedDay, todayDay) {
-            if (todayDay === 0) { showPopup('상자는 12월 1일부터 열 수 있어요'); return; }
+            // 💡 수정: todayDay === 0일 때, updatePuzzleState에서 이미 이벤트를 설정했으므로,
+            // 이 함수는 12월 1일 이후 퍼즐 조각 클릭 시에만 의미가 있습니다.
+            if (todayDay === 0) { 
+                // 이 코드가 실행될 일은 없지만, 혹시 모를 상황에 대비하여 팝업만 띄웁니다.
+                showPopup('나머지 이미지는 12월에 만나요🎄'); 
+                return; 
+            }
             if (clickedDay > todayDay) { showPopup('아직 해당 날짜가 되지 않았어요'); return; }
             if (openedDays[clickedDay]) { showPopup(`12월 ${clickedDay}일의 상자는 이미 열어보았어요`); return; }
 
@@ -608,7 +657,7 @@
         function checkImageCompletion() {
             const isImageComplete = openedPiecesCount === 4;
             if (isImageComplete) {
-                downloadLink.href = IMAGE_URLS[currentImageIndex];
+                downloadLink.href = currentPuzzleImageUrl; 
                 downloadLinkContainer.style.display = 'block';
             } else {
                 downloadLinkContainer.style.display = 'none';
@@ -646,7 +695,7 @@
                     if (openedDays[dayNumber]) { 
                         dayBox.classList.add('past'); 
                     }
-                    if (dayNumber === TODAY_DATE) { 
+                    if (dayNumber === TODAY_DATE && TODAY_DATE > 0) { 
                         dayBox.classList.add('today'); 
                     }
                     
@@ -674,20 +723,38 @@
         closePopupButton.onclick = () => { popupModal.style.display = 'none'; };
 
         window.onload = async () => {
-            try {
-                await fetchOpenedDays(); 
-                updatePuzzleState();
-            } catch (e) {
-                console.error("Critical error during initialization, proceeding with default state:", e);
-                updatePuzzleState(); 
-            }
             
+            await fetchOpenedDays(); 
+            
+            let imageUrlToLoad;
+            if (TODAY_DATE === 0) {
+                 imageUrlToLoad = FALLBACK_IMAGE_URL; 
+            } else {
+                 const currentDayImageIndex = Math.floor((Math.min(TODAY_DATE, TOTAL_DAYS) - 1) / 4);
+                 imageUrlToLoad = IMAGE_URLS[Math.max(0, currentDayImageIndex)];
+            }
+
+            const image = new Image();
+            image.src = imageUrlToLoad;
+
+            // 로드 성공 시
+            image.onload = () => {
+                updatePuzzleState(); 
+            };
+            
+            // 로드 실패 시
+            image.onerror = () => {
+                 console.error("Failed to load initial image. Proceeding with default state.");
+                 updatePuzzleState();
+            };
+            
+            // 🚀 비상: 혹시 모를 이미지 로드 이벤트 미발생을 대비하여 최대 대기 시간을 설정합니다.
             setTimeout(() => {
-                loadingOverlay.style.opacity = 0;
-                setTimeout(() => { 
-                    loadingOverlay.style.display = 'none';
-                }, 500); 
-            }, 1000); 
+                if(loadingOverlay.style.opacity === '1') {
+                    console.warn("Image loading took too long. Forcing state update.");
+                    updatePuzzleState(); 
+                }
+            }, 3000); 
         };
     </script>
 </body>
